@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/txtTime"
+        android:id="@+id/WorkerTimeInput"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -99,7 +99,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toStartOf="@+id/buttonAdd"
         app:layout_constraintHorizontal_bias="0.702"
-        app:layout_constraintStart_toStartOf="@+id/txtTime" />
+        app:layout_constraintStart_toStartOf="@+id/WorkerTimeInput" />
 
     <Button
         android:id="@+id/nextButton"
@@ -115,7 +115,7 @@
         app:layout_constraintVertical_bias="0.939" />
 
     <TextView
-        android:id="@+id/unView"
+        android:id="@+id/totlHoursUpdating"
         android:layout_width="78dp"
         android:layout_height="32dp"
         android:layout_marginTop="64dp"

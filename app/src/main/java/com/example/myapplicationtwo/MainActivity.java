@@ -16,17 +16,17 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
-    Button save;
-    Button next;
-    ArrayList<String> addArrayWorkerName = new ArrayList<String>();
-    ArrayList<String> addArrayOrigTime = new ArrayList<String>();
-    ArrayList<Double> addArrayCalcTime = new ArrayList<Double>();
+    Button save;                                                // save new worker
+    Button next;                                                // moving to second screen
+    ArrayList<String> addArrayWorkerName = new ArrayList<String>();  // array of names workers
+    ArrayList<String> addArrayOrigTime = new ArrayList<String>();   // array of times in shift per worker
+    ArrayList<Double> addArrayCalcTime = new ArrayList<Double>();   // array of times in shift per worker after calculation using a formula of the business place
 
-    EditText txt;
-    EditText txtOne;
-    ListView show;
-    ListView showOne;
-    ListView showTwo;
+    EditText WorkerNameInput; // worker name input
+    EditText WorkerTimeInput; // worker time input
+    ListView show;            // shows on screen the worker name
+    ListView showOne;        // shows on screen the shift time worker
+    ListView showTwo;       // shows on screen the shift time after using the formula
     Double sum=0.0;
 
     @Override
@@ -36,52 +36,52 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add Worker");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txt=(EditText)findViewById(R.id.WorkerNameInput);
-        txtOne=(EditText)findViewById(R.id.txtTime);
-        TextView sumAll = findViewById(R.id.sumHours);
-        TextView unsum = findViewById(R.id.unView);
-        show=(ListView)findViewById(R.id.listView);
-        showOne=(ListView)findViewById(R.id.listViewOne);
-        showTwo=(ListView)findViewById(R.id.listViewTwo);
-        save=(Button)findViewById(R.id.buttonAdd);
-        next=(Button)findViewById(R.id.nextButton);
-        save.setOnClickListener(new View.OnClickListener() {
+        WorkerNameInput=(EditText)findViewById(R.id.WorkerNameInput); // sets and connect to the objects on the activity
+        WorkerTimeInput=(EditText)findViewById(R.id.WorkerTimeInput); // sets and connect to the objects on the activity
+        TextView sumAll = findViewById(R.id.sumHours);                // sets and connect to the objects on the activity
+        TextView totlHoursUpdating = findViewById(R.id.totlHoursUpdating); // sets and connect to the objects on the activity
+        show=(ListView)findViewById(R.id.listView);                   // sets and connect to the objects on the activity
+        showOne=(ListView)findViewById(R.id.listViewOne);             // sets and connect to the objects on the activity
+        showTwo=(ListView)findViewById(R.id.listViewTwo);             // sets and connect to the objects on the activity
+        save=(Button)findViewById(R.id.buttonAdd);                    // sets and connect to the objects on the activity
+        next=(Button)findViewById(R.id.nextButton);                   // sets and connect to the objects on the activity
+        save.setOnClickListener(new View.OnClickListener() {           // after push the button save its saves the inputs that entered by the user
 
             @Override
             public void onClick(View v) {
-                String getInput=txt.getText().toString();
-                String getInputOne=txtOne.getText().toString();
+                String getInput=WorkerNameInput.getText().toString();
+                String getInputOne=WorkerTimeInput.getText().toString();
 
-                if(addArrayWorkerName.contains(getInput)) {
+                if(addArrayWorkerName.contains(getInput)) {                                                     // if the name already used
                     Toast.makeText(getBaseContext(), "Item already to the Array", Toast.LENGTH_LONG).show();
                 }
-                else if(getInput == null || getInput.trim().equals("") || getInputOne == null || getInputOne.trim().equals("")) {
+                else if(getInput == null || getInput.trim().equals("") || getInputOne == null || getInputOne.trim().equals("")) {   // if the field is empty
                     Toast.makeText(getBaseContext(), "Input field is empty", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    addArrayWorkerName.add(getInput);
+                    addArrayWorkerName.add(getInput);                                       // add the name of the worker
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, addArrayWorkerName);
                     show.setAdapter(adapter);
                     ((EditText)findViewById(R.id.WorkerNameInput)).setText(" ");
 
-                    addArrayOrigTime.add(getInputOne);
+                    addArrayOrigTime.add(getInputOne);                                      // add thr time of the shift
                     ArrayAdapter<String> adapterOne = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, addArrayOrigTime);
                     showOne.setAdapter(adapterOne);
-                    ((EditText)findViewById(R.id.txtTime)).setText(" ");
+                    ((EditText)findViewById(R.id.WorkerTimeInput)).setText(" ");
 
-                    addArrayCalcTime.add(ExChange(getInputOne));
+                    addArrayCalcTime.add(ExChange(getInputOne));                            // add the time of the shift after using the formula
                     ArrayAdapter<Double> adapterTwo = new ArrayAdapter<Double>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, addArrayCalcTime);
                     showTwo.setAdapter(adapterTwo);
 
-                    sumAll.setText( "סהכ שעות במשמרת: " );
-                    unsum.setText(new DecimalFormat("##.##").format(sumHours(ExChange(getInputOne))));
+                    sumAll.setText( "סהכ שעות במשמרת: " );                                  // updating the total hours of all the worker
+                    totlHoursUpdating.setText(new DecimalFormat("##.##").format(sumHours(ExChange(getInputOne))));
                 }
             }
         });
-        next.setOnClickListener(new View.OnClickListener() {
+        next.setOnClickListener(new View.OnClickListener() {       // after push the button next its saves the arrays and moving the data to the next screen
             @Override
             public void onClick(View v) {
-                String sumfinsh = unsum.getText().toString();
+                String sumfinsh = totlHoursUpdating.getText().toString();
                 Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
                 intent.putExtra("message_key", sumfinsh);
                 intent.putExtra("NameListExtra",addArrayWorkerName);
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public Double ExChange(String time) {
+    public Double ExChange(String time) {                   // the formula to calc the time shift
             String Hour=time.split(":")[0];
             String Minute=time.split(":")[1];
             int hour=Integer.parseInt(Hour.trim());
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             return Double.valueOf(new DecimalFormat("##.##").format(hour + minute));
     }
 
-    public Double sumHours(Double num) {
+    public Double sumHours(Double num) {        // calc the total hours in shift of all workers
         sum += num;
         return sum;
     }

@@ -8,7 +8,7 @@
     tools:context=".SecondActivity">
 
     <EditText
-        android:id="@+id/allTips"
+        android:id="@+id/allTipsInput"
         android:layout_width="137dp"
         android:layout_height="48dp"
         android:layout_marginTop="28dp"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:text="חשב"
-        app:layout_constraintEnd_toStartOf="@+id/allTips"
+        app:layout_constraintEnd_toStartOf="@+id/allTipsInput"
         app:layout_constraintHorizontal_bias="0.565"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
